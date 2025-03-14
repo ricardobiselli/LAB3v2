@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import AuthContext from "../../services/authentication/AuthContext";
 import { useNavigate } from "react-router-dom";
-import SearchBar from "../search-bar/SearchBar";
+// import SearchBar from "../search-bar/SearchBar";
 
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
           <Navbar.Brand href="/">BUILD-YOUR-PC.COM</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-              <SearchBar />
+              {/* <SearchBar /> */}
             <Nav className="ms-auto">
               {!user ? (
                 <>
@@ -45,6 +45,9 @@ const Header = () => {
                   {role === "client" && 
                   <><Nav.Link href="/cart">My Cart</Nav.Link>
                   <Nav.Link href="/clientprofile">My Profile</Nav.Link>
+                  <Nav.Link href="/myorders">My Orders</Nav.Link>
+
+
                   </>}
                   <Button
                     variant="outline-light"

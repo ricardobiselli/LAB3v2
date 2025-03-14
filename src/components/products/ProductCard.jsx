@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import AuthContext from "../../services/authentication/AuthContext";
 import { Button, Card, CardBody, CardFooter, CardHeader, Col, Form, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -21,9 +21,6 @@ const ProductCard = ({ product, fetchProducts }) => {
     })
     const image = useCategoryImage(product.category);
 
-    useEffect(() => {
-        console.log('selected quantity changed: ', selectedQuantity);
-    }, [selectedQuantity]);
 
     const handleEditProduct = () => {
         setProductForm({

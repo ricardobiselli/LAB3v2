@@ -8,9 +8,9 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, role, loading } = useContext(AuthContext);
   const location = useLocation();
 
-  console.log('ProtectedRoute - User:', user);
-  console.log('ProtectedRoute - User role:', role);
-  console.log('ProtectedRoute - Current location:', location.pathname);
+  // console.log('ProtectedRoute - User:', user);
+  // console.log('ProtectedRoute - User role:', role);
+  // console.log('ProtectedRoute - Current location:', location.pathname);
 
 
   if (loading) {
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 }
 
   if (!user) {
-    console.log('ProtectedRoute - No user, redirecting to login');
+    // console.log('ProtectedRoute - No user, redirecting to login');
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
@@ -37,7 +37,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     );
   }
 
-  console.log('ProtectedRoute - Access granted');
+  // console.log('ProtectedRoute - Access granted');
   return children;
 };
 

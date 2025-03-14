@@ -1,3 +1,5 @@
+
+
 import { useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import { AddProduct } from "../../api-connection/ApiEndpoints";
@@ -11,6 +13,8 @@ const AddNewProduct = () => {
     const stockQuantityRef = useRef(null);
     const categoryRef = useRef(null);
     const powerConsumptionRef = useRef(null);
+
+    const categories = ["CPU", "PSU", "RAM", "Storage", "Case", "GPU", "Motherboard"];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,7 +31,7 @@ const AddNewProduct = () => {
         try {
             await AddProduct(productData);
             alert("Product added successfully!"); 
-            navigate('/')
+            navigate('/');
             e.target.reset(); 
         } catch {
             alert("Failed to add product. Please try again."); 
@@ -82,12 +86,14 @@ const AddNewProduct = () => {
 
                 <Form.Group controlId="category" className="mb-3">
                     <Form.Label>Category</Form.Label>
-                    <Form.Control
-                        type="text"
-                        ref={categoryRef}
-                        placeholder="3-20 characters"
-                        required
-                    />
+                    <Form.Select ref={categoryRef} required>
+                        <option value="">Select a category</option>
+                        {categories.map((category, index) => (
+                            <option key={index} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </Form.Select>
                 </Form.Group>
 
                 <Form.Group controlId="powerConsumption" className="mb-3">

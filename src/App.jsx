@@ -26,9 +26,6 @@ const App = () => {
     setSelectedCategory(category); 
   };
 
-  console.log("App selectedCategory:", selectedCategory);
-  console.log("App handleCategoryChange:", handleCategoryChange);
-
   return (
     <div className="app-container">
       <AuthProvider>

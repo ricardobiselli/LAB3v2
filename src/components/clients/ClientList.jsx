@@ -9,14 +9,6 @@ import AdminPanel from "../admin/AdminPanel";
     const { user, role } = useContext(AuthContext);
     const {fetchClients, clients, loading } = UseClients();
 
-    // const handleEditClient = (updatedClient) => {
-    //   setClients((prevClients) =>
-    //     prevClients.map((client) =>
-    //       client.id === updatedClient.id ? updatedClient : client
-    //     )
-    //   );
-    // };
-
     if (loading) return <p>pleaes wait while clients are loading....</p>;
 
     return (
@@ -27,7 +19,6 @@ import AdminPanel from "../admin/AdminPanel";
             <ClientCard
               key={client.id}
               client={client}
-              // onClientEdit={handleEditClient} 
               fetchClients={fetchClients}
             />
           ))}

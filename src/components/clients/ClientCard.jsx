@@ -2,15 +2,13 @@ import { Card, Button, Modal, Form, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { DeleteClient, UpdateClient } from "../../api-connection/ApiEndpoints";
-// import UseClients from "./UseClients";
 
-const ClientCard = ({fetchClients, client }) => {
+const ClientCard = ({ fetchClients, client }) => {
     const [showModal, setShowModal] = useState(false);
     const [clientForm, setClientForm] = useState({
         id: client.id,
         userName: '',
         email: '',
-
         firstName: '',
         lastName: '',
         dniNumber: '',
@@ -33,10 +31,9 @@ const ClientCard = ({fetchClients, client }) => {
     const handleDeleteClient = async (id) => {
         try {
             await DeleteClient(id);
-            await fetchClients(); // Refresca la lista de clientes desde el backend
+            await fetchClients();
 
             alert("Client was successfully deleted!");
-            //   setClients((prevClients) => prevClients.filter((c) => c.id !== id));
         } catch (err) {
             console.error(err.message);
         }
@@ -48,7 +45,6 @@ const ClientCard = ({fetchClients, client }) => {
             ...prevClientForm,
             [name]: value,
         }));
-        // console.log("Updated clientForm:", { [name]: value });
     };
 
 
@@ -56,9 +52,8 @@ const ClientCard = ({fetchClients, client }) => {
     const handleSubmitEditedClient = async (e) => {
         e.preventDefault();
         try {
-           await UpdateClient(clientForm);
-            // onClientEdit(updatedClient); // Actualiza el estado local de la lista de clientes
-            await fetchClients(); // Refresca la lista de clientes desde el backend
+            await UpdateClient(clientForm);
+            await fetchClients();
             setShowModal(false);
         } catch (err) {
             console.error("Error al actualizar el cliente:", err);
@@ -66,7 +61,7 @@ const ClientCard = ({fetchClients, client }) => {
         }
     };
 
-    
+
     return (
         <Col md={4} className="mb-4">
             <Card>
@@ -134,8 +129,7 @@ ClientCard.propTypes = {
         userName: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
     }).isRequired,
-        // onClientEdit        : PropTypes.func.isRequired,
-    fetchClients        : PropTypes.func.isRequired,
+    fetchClients: PropTypes.func.isRequired,
 
 
 };
