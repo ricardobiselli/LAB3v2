@@ -12,10 +12,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Limpiar errores previos
+    setError(null); 
     const success = await login(userNameOrEmail, password);
     if (success) {
-      navigate("/products")
+      navigate("/")
     } else {
       setError("Invalid credentials...try again!");
     }

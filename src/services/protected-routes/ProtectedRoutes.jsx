@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user, role, isLoading } = useContext(AuthContext);
+  const { user, role, loading } = useContext(AuthContext);
   const location = useLocation();
 
   console.log('ProtectedRoute - User:', user);
@@ -13,23 +13,15 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   console.log('ProtectedRoute - Current location:', location.pathname);
 
 
-  if (isLoading) {
-    return (
-      <div className="text-center mt-3">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
+  if (loading) {
+    return <p>Please wait while loading...</p>; 
+}
 
-  // Si no hay usuario, redirigir al login
   if (!user) {
     console.log('ProtectedRoute - No user, redirecting to login');
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // Si el rol del usuario no está permitido, mostrar alerta
   if (allowedRoles && !allowedRoles.includes(role)) {
     console.log('ProtectedRoute - User does not have required role');
     return (
@@ -45,7 +37,6 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     );
   }
 
-  // Acceso permitido
   console.log('ProtectedRoute - Access granted');
   return children;
 };

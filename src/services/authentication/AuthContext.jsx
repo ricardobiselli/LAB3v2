@@ -3,6 +3,7 @@ import { AuthenticationService } from '../../api-connection/ApiEndpoints';
 import { jwtDecode } from 'jwt-decode'
 import PropTypes from "prop-types";
 import { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
 
 const AuthContext = createContext();
@@ -10,17 +11,25 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [role, setRole] = useState(null)
+    // const navigate = useNavigate();
+
+
     useEffect(() => {
-        // Intentar cargar el token desde el localStorage al montar el componente
         const tokenSavedInLocalStorage = localStorage.getItem('token');
         if (tokenSavedInLocalStorage) {
             const decodedUser = jwtDecode(tokenSavedInLocalStorage);
             setToken(tokenSavedInLocalStorage);
             setUser(decodedUser);
             setRole(decodedUser["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+            // setRole(decodedUser.userType);
+            
+
         }
-    }, []); // Solo se ejecuta al montar el componente
+        setLoading(false); 
+
+    }, []); 
 
 
     const login = async (userNameOrEmail, password) => {
@@ -31,8 +40,8 @@ export const AuthProvider = ({ children }) => {
                 const decodedUser = jwtDecode(token);
                 console.log('this is the user: ', decodedUser);
                 setUser(decodedUser);
-                setRole(decodedUser["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                ])
+                setRole(decodedUser["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"])
+                // setRole(decodedUser.userType);
                 localStorage.setItem('token', token);
                 return true;
             } else { return false; }
@@ -48,13 +57,14 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setRole(null);
-        setUser(null);
+        setToken(null);
         localStorage.removeItem('token');
         console.log('user has logged out');
+        
     };
 
     return (
-        <AuthContext.Provider value={{ login, logout, token, user, role }}>
+        <AuthContext.Provider value={{ login, logout, token, user, role, loading }}>
             {children}
         </AuthContext.Provider>
     )
