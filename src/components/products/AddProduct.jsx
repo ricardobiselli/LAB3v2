@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Form, Button } from "react-bootstrap";
-import { AddProduct } from "../../../api-connection/ApiEndpoints";
+import { AddProduct } from "../../api-connection/ApiEndpoints";
 import { useNavigate } from "react-router-dom";
 
 const AddNewProduct = () => {

@@ -67,7 +67,8 @@ export const UpdateProduct = async (productToUpdate) => {
 export const UpdateClient = async (clientToUpdate) => {
     console.log('Preparing to send to the backend:', clientToUpdate);
     const response = await api.put('/Clients/Update', clientToUpdate);
-    return response.data;
+    console.log('data: ', response.data)
+    return response;
 };
 
 export const DeleteProduct = async (productId) => {
@@ -112,13 +113,13 @@ export const GetCategories = async () => {
     return response.data;
 };
 
-export const AddAdmin = async () => {
-    const response = await api.post('/Admins/Create-New-Admin');
+export const CreateAdmin = async (admin) => {
+    const response = await api.post('/Admins/Create-New-Admin', admin);
     return response.data;
 }
 
 export const DeleteAdmin = async (adminId)=>{
-    const response = await api.delete(`/Admins/Delete/'${adminId}`)
+    const response = await api.delete(`/Admins/Delete/${adminId}`)
     return response.data;
 }
 

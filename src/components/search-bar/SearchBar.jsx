@@ -1,9 +1,9 @@
 // import PropTypes from "prop-types";
-// import { useState } from "react";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
 const SearchBar = () => {
-    // const [searchWord, setSearchWord] = useState("");
+     const [searchWord, setSearchWord] = useState("");
 
     const handleSearch = () => {
     };
@@ -15,8 +15,8 @@ const SearchBar = () => {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
-                // value={searchWord}
-                // onChange={(e) => setSearchWord(e.target.value)}
+                value={searchWord}
+                onChange={(e) => setSearchWord(e.target.value)}
             />
             <Button variant="outline-success" onClick={handleSearch}>
                 Search

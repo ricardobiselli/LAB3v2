@@ -2,18 +2,19 @@ import { Card, Button, Modal, Form, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { DeleteClient, UpdateClient } from "../../api-connection/ApiEndpoints";
+// import UseClients from "./UseClients";
 
-const ClientCard = ({ client, setRefreshTrigger, refreshTrigger }) => {
+const ClientCard = ({fetchClients, client }) => {
     const [showModal, setShowModal] = useState(false);
     const [clientForm, setClientForm] = useState({
         id: client.id,
-        name: '',
+        userName: '',
+        email: '',
+
         firstName: '',
         lastName: '',
         dniNumber: '',
         address: '',
-        userName: '',
-        email: '',
     });
 
     const handleEditClient = () => {
@@ -32,14 +33,14 @@ const ClientCard = ({ client, setRefreshTrigger, refreshTrigger }) => {
     const handleDeleteClient = async (id) => {
         try {
             await DeleteClient(id);
-            alert("Client was successfully deleted!")
-        }
-        catch (err) {
+            await fetchClients(); // Refresca la lista de clientes desde el backend
+
+            alert("Client was successfully deleted!");
+            //   setClients((prevClients) => prevClients.filter((c) => c.id !== id));
+        } catch (err) {
             console.error(err.message);
         }
-        setRefreshTrigger((x)=>x + 1);
-
-    }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,22 +48,25 @@ const ClientCard = ({ client, setRefreshTrigger, refreshTrigger }) => {
             ...prevClientForm,
             [name]: value,
         }));
-        console.log("Updated clientForm:", { [name]: value });
+        // console.log("Updated clientForm:", { [name]: value });
     };
-    
+
 
 
     const handleSubmitEditedClient = async (e) => {
         e.preventDefault();
         try {
-            console.log("Updated Client:", clientForm);
-            await UpdateClient(clientForm);
-
+           await UpdateClient(clientForm);
+            // onClientEdit(updatedClient); // Actualiza el estado local de la lista de clientes
+            await fetchClients(); // Refresca la lista de clientes desde el backend
             setShowModal(false);
-            setRefreshTrigger(refreshTrigger + 1); 
-        } catch  {
-            alert("Failed to update client. Please try again.");         }
+        } catch (err) {
+            console.error("Error al actualizar el cliente:", err);
+            alert("No se pudo actualizar el cliente. Por favor, inténtalo de nuevo.");
+        }
     };
+
+    
     return (
         <Col md={4} className="mb-4">
             <Card>
@@ -130,8 +134,10 @@ ClientCard.propTypes = {
         userName: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
     }).isRequired,
-    setRefreshTrigger: PropTypes.func.isRequired,
-    refreshTrigger: PropTypes.number.isRequired,
+        // onClientEdit        : PropTypes.func.isRequired,
+    fetchClients        : PropTypes.func.isRequired,
+
+
 };
 
 export default ClientCard;

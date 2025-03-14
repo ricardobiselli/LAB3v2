@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
-import AuthContext from "../../../services/authentication/AuthContext";
+import AuthContext from "../../services/authentication/AuthContext";
 import { Button, Card, CardBody, CardFooter, CardHeader, Col, Form, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { AddProductToCart, DeleteProduct, UpdateProduct } from "../../../api-connection/ApiEndpoints";
-import useCategoryImage from "../hooks/useCategoryImages";
+import { AddProductToCart, DeleteProduct, UpdateProduct } from "../../api-connection/ApiEndpoints";
+import useCategoryImage from "../../images/useCategoryImages";
 
-const ProductCard = ({ product, refreshTrigger, setRefreshTrigger }) => {
+const ProductCard = ({ product, fetchProducts }) => {
     const { role } = useContext(AuthContext);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [error, setError] = useState(null);
@@ -40,11 +40,12 @@ const ProductCard = ({ product, refreshTrigger, setRefreshTrigger }) => {
 
     const handleDeleteProduct = async (id) => {
         try {
-            await DeleteProduct(id);
-            alert("Product deleted successfully!");
-            // setRefreshTrigger(refreshTrigger + 1);
-            setRefreshTrigger((prev) => prev + 1);
-
+            let confirmMessage = confirm("Please confirm you are deleting this product")
+            if (confirmMessage) {
+                await DeleteProduct(id);
+                alert("Product deleted successfully!");
+                await fetchProducts();
+            }   
         } catch {
             alert("Failed to delete client. Please try again.");
         }
@@ -70,7 +71,8 @@ const ProductCard = ({ product, refreshTrigger, setRefreshTrigger }) => {
         try {
             await UpdateProduct(productForm);
             setShowModal(false);
-            setRefreshTrigger(refreshTrigger + 1)
+            await fetchProducts();
+
         } catch (err) {
             console.error('error: ', err.message);
         }
@@ -189,8 +191,7 @@ ProductCard.propTypes = {
         stockQuantity: PropTypes.number.isRequired,
         powerConsumption: PropTypes.number.isRequired
     }).isRequired,
-    refreshTrigger: PropTypes.number.isRequired,
-    setRefreshTrigger: PropTypes.func.isRequired,
+    fetchProducts: PropTypes.func.isRequired,
 };
 
 

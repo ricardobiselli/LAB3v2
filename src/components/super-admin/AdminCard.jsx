@@ -2,19 +2,22 @@ import { Card, Button, Modal, Form, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { DeleteAdmin, UpdateAdmin } from "../../api-connection/ApiEndpoints";
+// import UseAdmins from "./UseAdmins";
 
-const AdminCard = ({ admin, setRefreshTrigger, refreshTrigger }) => {
+const AdminCard = ({ admin, fetchAdmins }) => {
     const [showModal, setShowModal] = useState(false);
     const [adminForm, setAdminForm] = useState({
         id: admin.id,
         userName: '',
+        password: '',
         email: '',
     });
 
     const handleEditAdmin = () => {
         setAdminForm({
-
+            id: admin.id,
             userName: admin.userName,
+            password: admin.password,
             email: admin.email,
         });
         setShowModal(true);
@@ -22,12 +25,17 @@ const AdminCard = ({ admin, setRefreshTrigger, refreshTrigger }) => {
 
     const handleDeleteAdmin = async (id) => {
         try {
-            await DeleteAdmin(id);
+            let confirmMessage =
+                confirm("Are you sure you want to delete this admin?");
+            if (confirmMessage) {
+                await DeleteAdmin(id);
+                await fetchAdmins();
+            }
+
         }
         catch (err) {
             console.error(err.message);
         }
-        setRefreshTrigger(refreshTrigger + 1);
 
     }
 
@@ -47,9 +55,8 @@ const AdminCard = ({ admin, setRefreshTrigger, refreshTrigger }) => {
         try {
             console.log("Updated Client:", adminForm);
             await UpdateAdmin(adminForm);
-
+            await fetchAdmins();
             setShowModal(false);
-            setRefreshTrigger(refreshTrigger + 1);
         } catch (err) {
             console.error(err.message);
         }
@@ -85,7 +92,7 @@ const AdminCard = ({ admin, setRefreshTrigger, refreshTrigger }) => {
                         </Form.Group>
                         <Form.Group controlId="formPassword">
                             <Form.Label>password</Form.Label>
-                            <Form.Control type="email" name="email" value={adminForm.password} onChange={handleInputChange} />
+                            <Form.Control type="password" name="password" value={adminForm.password} onChange={handleInputChange} />
                         </Form.Group>
                         <Button variant="primary" type="submit" className="mt-3">Save Changes</Button>
                     </Form>
@@ -103,8 +110,7 @@ AdminCard.propTypes = {
         email: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
     }).isRequired,
-    setRefreshTrigger: PropTypes.func.isRequired,
-    refreshTrigger: PropTypes.number.isRequired,
+    fetchAdmins: PropTypes.func.isRequired,
 };
 
 export default AdminCard;

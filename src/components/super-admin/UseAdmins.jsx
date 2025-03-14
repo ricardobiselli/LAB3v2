@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 import { GetAdmins } from "../../api-connection/ApiEndpoints";
 
-const UseAdmins = (refreshTrigger) => { 
+const UseAdmins = () => { 
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response = await GetAdmins();
-        setAdmins(response);
-        setLoading(false);
-      } catch (err) {
-        console.error("error", err);
-      }
-    };
-    fetchClients();
-  }, [refreshTrigger]); 
+    
+    fetchAdmins();
+  }, []); 
 
-  return { admins, loading };
+  const fetchAdmins = async () => {
+    try {
+      const response = await GetAdmins();
+      setAdmins(response);
+      setLoading(false);
+    } catch (err) {
+      console.error("error", err);
+    }
+  };
+
+  return { admins, loading , fetchAdmins };
 };
 
 export default UseAdmins;

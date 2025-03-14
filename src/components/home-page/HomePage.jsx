@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import AuthContext from "../../services/authentication/AuthContext";
-import ProductList from "../products/components/ProductList";
+import ProductList from "../products/ProductList";
 import AdminPanel from "../admin/AdminPanel";
 import SuperAdminPanel from "../super-admin/SuperAdminPanel";
 const Home = () => {

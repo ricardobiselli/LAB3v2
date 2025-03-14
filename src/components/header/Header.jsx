@@ -41,8 +41,11 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Nav.Link href="/profile">Hi, {user.userName}</Nav.Link>
-                  {role === "client" && <Nav.Link href="/cart">My Cart</Nav.Link>}
+                  <Nav.Link >Hi, {user.userName}</Nav.Link>
+                  {role === "client" && 
+                  <><Nav.Link href="/cart">My Cart</Nav.Link>
+                  <Nav.Link href="/clientprofile">My Profile</Nav.Link>
+                  </>}
                   <Button
                     variant="outline-light"
                     onClick={logout}

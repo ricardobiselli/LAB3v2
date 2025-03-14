@@ -1,16 +1,13 @@
 import { Container, Row, Form } from "react-bootstrap";
 import ProductCard from "./ProductCard";
-import useProducts from "../hooks/UseProducts";
+import useProducts from "./UseProducts";
 import PropTypes from "prop-types";
-import { useState, useContext } from "react";
-import AdminPanel from "../../admin/AdminPanel";
-import AuthContext from "../../../services/authentication/AuthContext";
+import {  useContext } from "react";
+import AdminPanel from "../admin/AdminPanel";
+import AuthContext from "../../services/authentication/AuthContext";
 
 const ProductList = ({  selectedCategory, onCategoryChange }) => {
-    console.log("selectedCategory:", selectedCategory); 
-    console.log("onCategoryChange:", onCategoryChange);
-    const [refreshTrigger, setRefreshTrigger] = useState(0);
-    const { products, loading } = useProducts(refreshTrigger); 
+    const { products, fetchProducts, loading } = useProducts(); 
     const { user, role } = useContext(AuthContext);
 
     const filteredProducts = products.filter((product) => {
@@ -47,8 +44,7 @@ const ProductList = ({  selectedCategory, onCategoryChange }) => {
                 <ProductCard
                     key={product.id}
                     product={product}
-                    setRefreshTrigger={setRefreshTrigger}
-                    refreshTrigger={refreshTrigger}
+                    fetchProducts={fetchProducts}
                 />
             ))}
 

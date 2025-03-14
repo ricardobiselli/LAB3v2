@@ -27,12 +27,18 @@ const SuperAdminPanel = () => {
     };
 
     const handleAddAdmin = () => {
-        navigate('/adminlist')
+        navigate('/addadmin')
+    };
+
+    
+    const handleEditAdmin = () => {
+        console.log("Show client list for editing/deleting");
+        navigate('/AdminList')
     };
 
     return (
         <div>
-            {user && role === "admin" && (
+            {user && role === "superadmin" && (
                 <div className="container">
                     <h1 className="display-4 mb-3">
                         Hi {user.userName}!, Welcome to the admin panel
@@ -40,8 +46,11 @@ const SuperAdminPanel = () => {
                     <h2>  <Button variant="primary" onClick={handleAddAdmin}>
                         CREATE NEW ADMIN
                     </Button></h2>
-
+                    <h2>  <Button variant="danger" onClick={handleEditAdmin}>
+                        EDIT/DELETE existing admins 
+                    </Button></h2>
                     <h2>
+                        
                         <Button variant="primary" onClick={handleAddClient}>
                             Add new client
                         </Button>
